@@ -1,7 +1,7 @@
-//convert time fcn to present
-//create time coding for past and future
+
 //save text to local storage
 //saved events persist after refresh
+
 
 console.log(moment().isSame('13:00', 'hour'))
 console.log(moment().hour())
@@ -15,19 +15,29 @@ for(i=9; i< 18;i++){ //This For-Loop dynamically creates the set of hours I will
     times.push(`${i}:00`)
 }
 console.log(times)
+
+//var container = document.getElementById('container')
 var container = document.getElementsByClassName('container')[0]
 for(let i=0; i<times.length; i++){ //This For-Loop displays the schedule rows //
 container.innerHTML+= `<div class="row"> 
     <div class="hour col-1">${times[i]}</div>
     <textarea class="description col-9 ${getClass(times[i])}"></textarea>
     <button class = "col-2"> Save </button>
-</div>` //Bootstrap documentation calls for 12 colums per row so I designated the column width of hours, text area, and button proportionally to add up to 12
+</div>` //Bootstrap documentation calls for 12 colums per row in the grid system for containers.
+ //So I designated the column width of hours, text area, and button proportionally to add up to 12
 }
 
-function renderTasks(){ //This is the start of my save to local storage fcn. Need to add event listener etc.
-   history=  JSON.parse(localStorage.getitem('tasks')) || [null, null, null, null, null, null, null, null, null]
-
+ //This is the start of my save to local storage fcn. 
+//Need help figuring out how to index  event listener to the position in the array
+//I'm thinking event.target previousSibling but I'm struggling with the syntax
+function saveToStorage(description) {
+const history=  JSON.parse(localStorage.getitem('tasks')) || [null, null, null, null, null, null, null, null, null]
+console.log(history);
+history.push(description)
+localStorage.setItem('tasks', JSON.stringify(history))
 }
+
+//function renderTasks(){
 
 function getClass(time){  // this function returns the current time from Moment.js
     var currentHour = moment()._d.getHours()
@@ -40,6 +50,7 @@ function getClass(time){  // this function returns the current time from Moment.
         return "future"
     }
     return "present"
+}
 
     //Intrigued by the case structure but I couldn't debug it
     // switch (time) { 
@@ -53,8 +64,14 @@ function getClass(time){  // this function returns the current time from Moment.
     //         return "present"
     //         break;
     // }
-}
 
+$(".saveBtn").on("click",function(event)  {
+    event.preventDefault();
+    document.getElementsByClassName("description").innerHTML;
+    console.log("description");
+})
+
+//saveToStorage()
 
 
 
